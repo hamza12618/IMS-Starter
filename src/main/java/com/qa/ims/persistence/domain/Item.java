@@ -2,7 +2,7 @@ package com.qa.ims.persistence.domain;
 
 import java.util.Objects;
 
-public class Items {
+public class Item {
 
 	private Long itemId;
 	private String itemName;
@@ -10,7 +10,7 @@ public class Items {
 
 	
 	
-	public Items(String itemName, Double price) {
+	public Item(String itemName, Double price) {
 		super();
 		this.itemName = itemName;
 		this.price = price;
@@ -18,7 +18,7 @@ public class Items {
 
 
 
-	public Items(Long itemId, String itemName, Double price) {
+	public Item(Long itemId, String itemName, Double price) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
@@ -90,7 +90,7 @@ public class Items {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Items other = (Items) obj;
+		Item other = (Item) obj;
 		if (itemId == null) {
 			if (other.itemId != null)
 				return false;
