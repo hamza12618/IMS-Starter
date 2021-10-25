@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qa.ims.persistence.dao.CustomerDAO;
-import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.persistence.dao.ItemsDAO;
+import com.qa.ims.persistence.domain.Items;
 import com.qa.ims.utils.Utils;
 
 
@@ -14,16 +14,16 @@ import com.qa.ims.utils.Utils;
 	 * Takes in item details for CRUD functionality
 	 *
 	 */
-	public class ItemsController implements CrudController<Item> {
+	public class ItemsController implements CrudController<Items> {
 
 		public static final Logger LOGGER = LogManager.getLogger();
 
-		private CustomerDAO customerDAO;
+		private ItemsDAO itemDAO;
 		private Utils utils;
 
-		public CustomerController(CustomerDAO customerDAO, Utils utils) {
+		public ItemsController(ItemsDAO itemDAO, Utils utils) {
 			super();
-			this.customerDAO = customerDAO;
+			this.itemDAO = itemDAO;
 			this.utils = utils;
 		}
 
@@ -31,42 +31,42 @@ import com.qa.ims.utils.Utils;
 		 * Reads all customers to the logger
 		 */
 		@Override
-		public List<Customer> readAll() {
-			List<Customer> customers = customerDAO.readAll();
-			for (Customer customer : customers) {
-				LOGGER.info(customer);
+		public List<Items> readAll() {
+			List<Items> Items = itemDAO.readAll();
+			for (Items item : Items) {
+				LOGGER.info(item);
 			}
-			return customers;
+			return Items;
 		}
 
 		/**
 		 * Creates a customer by taking in user input
 		 */
 		@Override
-		public Customer create() {
-			LOGGER.info("Please enter a first name");
-			String firstName = utils.getString();
-			LOGGER.info("Please enter a surname");
-			String surname = utils.getString();
-			Customer customer = customerDAO.create(new Customer(firstName, surname));
-			LOGGER.info("Customer created");
-			return customer;
+		public Items create() {
+			LOGGER.info("Please enter a item name");
+			String itemName = utils.getString();
+			LOGGER.info("Please enter a item price");
+			Double price = utils.getDouble();
+			Items item = itemDAO.create(new Items(itemName, price));
+			LOGGER.info("Item created");
+			return item;
 		}
 
 		/**
 		 * Updates an existing customer by taking in user input
 		 */
 		@Override
-		public Customer update() {
-			LOGGER.info("Please enter the id of the customer you would like to update");
+		public Items update() {
+			LOGGER.info("Please enter the id of the item you would like to update");
 			Long id = utils.getLong();
-			LOGGER.info("Please enter a first name");
-			String firstName = utils.getString();
-			LOGGER.info("Please enter a surname");
-			String surname = utils.getString();
-			Customer customer = customerDAO.update(new Customer(id, firstName, surname));
-			LOGGER.info("Customer Updated");
-			return customer;
+			LOGGER.info("Please enter a item name");
+			String itemName = utils.getString();
+			LOGGER.info("Please enter a price");
+			Double price = utils.getDouble();
+			Items Items = itemDAO.update(new Items(id, itemName, price));
+			LOGGER.info("Item Updated");
+			return Items;
 		}
 
 		/**
@@ -76,11 +76,11 @@ import com.qa.ims.utils.Utils;
 		 */
 		@Override
 		public int delete() {
-			LOGGER.info("Please enter the id of the customer you would like to delete");
+			LOGGER.info("Please enter the Item Id of the item you would like to delete");
 			Long id = utils.getLong();
-			return customerDAO.delete(id);
+			return itemDAO.delete(id);
 		}
 
-	}
+	
 
 }
