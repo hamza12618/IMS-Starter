@@ -3,25 +3,24 @@ package com.qa.ims.persistence.domain;
 public class Orders {
 
 	private Long orderId;
-	private Long customerId;
+	private Customer customer;
 	private Double totalPrice;
 	private int quantity;
 	
 	
-	
-	public Orders(Long orderId, Long customerId, Double totalPrice, int quantity) {
+	public Orders(Long orderId, Customer customer, Double totalPrice, int quantity) {
 		super();
 		this.orderId = orderId;
-		this.customerId = customerId;
+		this.customer = customer;
 		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 	}
 
 
 
-	public Orders(Long customerId, Double totalPrice, int quantity) {
+	public Orders(Customer customer, Double totalPrice, int quantity) {
 		super();
-		this.customerId = customerId;
+		this.customer = customer;
 		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 	}
@@ -40,14 +39,14 @@ public class Orders {
 
 
 
-	public Long getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 
@@ -78,8 +77,8 @@ public class Orders {
 
 	@Override
 	public String toString() {
-		return "Orders [orderId=" + orderId + ", customerId=" + customerId + ", totalPrice=" + totalPrice
-				+ ", quantity=" + quantity + "]";
+		return "Orders [orderId=" + orderId + ", customer=" + customer + ", totalPrice=" + totalPrice + ", quantity="
+				+ quantity + "]";
 	}
 
 
@@ -88,7 +87,7 @@ public class Orders {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + quantity;
 		result = prime * result + ((totalPrice == null) ? 0 : totalPrice.hashCode());
@@ -106,10 +105,10 @@ public class Orders {
 		if (getClass() != obj.getClass())
 			return false;
 		Orders other = (Orders) obj;
-		if (customerId == null) {
-			if (other.customerId != null)
+		if (customer == null) {
+			if (other.customer != null)
 				return false;
-		} else if (!customerId.equals(other.customerId))
+		} else if (!customer.equals(other.customer))
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
@@ -125,7 +124,12 @@ public class Orders {
 			return false;
 		return true;
 	}
+
+
+
 	
+	
+
 	
 	
 }
