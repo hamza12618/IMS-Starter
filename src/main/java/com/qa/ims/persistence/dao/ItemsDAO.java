@@ -27,9 +27,9 @@ public class ItemsDAO implements Dao<Items> {
 	}
 
     /**
- * Reads all customers from the database
+ * Reads all items from the database
  * 
- * @return A list of customers
+ * @return A list of items
  */
 @Override
 public List<Items> readAll() {
@@ -51,7 +51,7 @@ public List<Items> readAll() {
 public Items readLatest() {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1");) {
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY itemsId DESC LIMIT 1");) {
 		resultSet.next();
 		return modelFromResultSet(resultSet);
 	} catch (Exception e) {
@@ -61,9 +61,9 @@ public Items readLatest() {
 	return null;
 }
 /**
- * Creates a customer in the database
+ * Creates a item in the database
  * 
- * @param customer - takes in a customer object. id will be ignored
+ * @param item - takes in a item object. id will be ignored
  */
 @Override
 public Items read(Long id) {
@@ -100,10 +100,10 @@ public Items create(Items item) {
 }
 }
 	/**
-	 * Updates a customer in the database
+	 * Updates a item in the database
 	 * 
-	 * @param customer - takes in a customer object, the id field will be used to
-	 *                 update that customer in the database
+	 * @param item - takes in a item object, the id field will be used to
+	 *                 update that item in the database
 	 * @return
 	 */
 @Override
@@ -127,7 +127,7 @@ public Items update(Items items) {
 @Override
 public int delete(long id) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM customers WHERE id = ?");) {
+			PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE itemId = ?");) {
 		statement.setLong(1, id);
 		return statement.executeUpdate();
 	} catch (Exception e) {
