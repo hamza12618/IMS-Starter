@@ -11,19 +11,19 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qa.ims.persistence.domain.Items;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBUtils;
 
-public class ItemsDAO implements Dao<Items> {
+public class ItemDAO implements Dao<Item> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
 	
 	@Override
-	public Items modelFromResultSet(ResultSet resultSet) throws SQLException {
+	public Item modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long itemId = resultSet.getLong("id");
 		String itemName = resultSet.getString("item_Name");
 		Double price = resultSet.getDouble("price");
-		return new Items(itemId, itemName, price);
+		return new Item(itemId, itemName, price);
 	}
 
     /**
@@ -32,11 +32,11 @@ public class ItemsDAO implements Dao<Items> {
  * @return A list of items
  */
 @Override
-public List<Items> readAll() {
+public List<Item> readAll() {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM items");) {
-		List<Items> items = new ArrayList<>();
+		List<Item> items = new ArrayList<>();
 		while (resultSet.next()) {
 			items.add(modelFromResultSet(resultSet));
 		}
@@ -48,7 +48,7 @@ public List<Items> readAll() {
 	return new ArrayList<>();
 }
 
-public Items readLatest() {
+public Item readLatest() {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY itemsId DESC LIMIT 1");) {
@@ -66,7 +66,7 @@ public Items readLatest() {
  * @param item - takes in a item object. id will be ignored
  */
 @Override
-public Items read(Long id) {
+public Item read(Long id) {
 	
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE itemId = ?");) {
@@ -84,7 +84,7 @@ public Items read(Long id) {
 }
 
 @Override
-public Items create(Items item) {
+public Item create(Item item) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
 					.prepareStatement("INSERT INTO items(itemID, item_Name, price) VALUES (?, ?)");) {
@@ -107,7 +107,7 @@ public Items create(Items item) {
 	 * @return
 	 */
 @Override
-public Items update(Items items) {
+public Item update(Item items) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
 					.prepareStatement("UPDATE items SET itemId = ?, item_Name = ? WHERE price = ?");) {
