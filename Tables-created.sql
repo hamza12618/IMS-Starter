@@ -4,15 +4,12 @@ CREATE SCHEMA IF NOT EXISTS `ims`;
 
 USE `ims` ;
 
-
 CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `customers_id` INT(11) NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(40) DEFAULT NULL,
     `surname` VARCHAR(40) DEFAULT NULL,
     PRIMARY KEY (`customers_id`)
 );
-
-
 CREATE TABLE `ims`.`items` (
     `item_id` INT(30) NOT NULL AUTO_INCREMENT,
     `item_name` VARCHAR(30),
@@ -39,4 +36,8 @@ CREATE TABLE `ims`.`items` (
     );
     
     
+    
+    
+
+SELECT * FROM orders; 
     
