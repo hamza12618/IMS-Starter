@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Orders;
 import com.qa.ims.utils.DBUtils;
 
@@ -21,9 +22,9 @@ public class OrdersDAO implements Dao<Orders> {
 	//•	Create an order in the system done
 	//•	View all orders in the system done
     //• Delete an order in the system done
-	//•	Add an item to an order 
+	//•	Add an item to an order done
 	//•	Calculate a cost for an order
-	//•	Delete an item in an order 
+	//•	Delete an item in an order done
 	
 
 	public static final Logger LOGGER = LogManager.getLogger();
@@ -34,12 +35,18 @@ public class OrdersDAO implements Dao<Orders> {
 		Double totalPrice = resultSet.getDouble("totalPrice");
 		int quantity = resultSet.getInt("quantity");
 		
+		
+		Long itemId = resultSet.getLong("itemId");
+		String itemName = resultSet.getString("itemName");
+		Double price = resultSet.getDouble("price");
+		Item item = new Item(itemId, itemName, price);
+		
 		Long customerId = resultSet.getLong("id");
 		String customerFirstName = resultSet.getString("first_name");
 		String customerSurName = resultSet.getString("surname");
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
-		
-		return new Orders(orderId, customer, totalPrice, quantity);
+	
+		return new Orders(orderId, customer, totalPrice, quantity, item);
 	}
 
 	@Override
@@ -126,4 +133,52 @@ public class OrdersDAO implements Dao<Orders> {
 	
 	
 	
+	
+	//•	Add an item to an order 
+	
+	public Orders AddItemToOrder(Orders order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("INSERT INTO order_items SET quantity = ?, totalPrice = ? WHERE item_id = ?");) {
+			statement.setInt(1, order.getQuantity());
+			statement.setDouble(2, order.getTotalPrice());
+			statement.setLong(3, order.getItem().getItemId()); 
+			statement.executeUpdate();
+			return read(order.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+		//•	Delete an item in an order
+	
+	public Orders deleteItemFromOrders(Orders order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE item_id = ? and orders_id = ?");) {
+			statement.setLong(1, order.getItem().getItemId());
+			statement.setLong(2, order.getOrderId());
+			 statement.executeUpdate();
+			 return read(order.getOrderId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
 }
+	
+}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
