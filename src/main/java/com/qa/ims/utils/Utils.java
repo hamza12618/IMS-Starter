@@ -52,4 +52,9 @@ public class Utils {
 		return doubleInput;
 	}
 
+	public Integer getInteger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
