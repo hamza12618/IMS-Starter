@@ -12,9 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.qa.ims.controller.ItemController;
 import com.qa.ims.controller.OrdersController;
-import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrdersDAO;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
@@ -36,16 +34,16 @@ public class OrdersControllerTest {
 	@Test
 	public void testCreate() {
 		final Long customerId = 1L;
-		final String customerFirstName = "Hamza";
-		final String customerSurName = "Shah";
+		final String customerFirstName = "jordan";
+		final String customerSurName = "harrison";
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
 		
-		final Double totalPrice = 5.00;
-		final Integer quantity = 6;
+		final Double totalPrice = 2.00;
+		final Integer quantity = 1;
 		
-		final Long itemId = 2L;
+		final Long itemId = 1L;
 		final String itemName = "Coke";
-		final Double price = 6.00;
+		final Double price = 2.00;
 		final Item item = new Item(itemId, itemName, price);
 		
 		final Orders created = new Orders(customer, totalPrice, quantity, item);
@@ -64,8 +62,18 @@ public class OrdersControllerTest {
 
 	@Test
 	public void testReadAll() {
+		final Long customerId = 1L;
+		final String customerFirstName = "jordan";
+		final String customerSurName = "harrison";
+		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
+		
+		final Long itemId = 1L;
+		final String itemName = "Coke";
+		final Double price = 2.00;
+		final Item item = new Item(itemId, itemName, price);
+		
 		List<Orders> order = new ArrayList<>();
-		order.add(new Orders(1L, 5.00, 6, 2L));
+		order.add(new Orders(customer, 2.00, 1, item));
 
 		Mockito.when(dao.readAll()).thenReturn(order);
 
@@ -76,11 +84,26 @@ public class OrdersControllerTest {
 
 	@Test
 	public void testUpdate() {
-		Item updated = new Item(1L, "Red Bull", 3.00);
+		final Long customerId = 1L;
+		final String customerFirstName = "jordan";
+		final String customerSurName = "harrison";
+		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
+		
+		final Long itemId = 1L;
+		final String itemName = "Coke";
+		final Double price = 2.00;
+		final Item item = new Item(itemId, itemName, price);
+		
+		Orders updated = new Orders(customer, 2.00, 1, item);
 
+		
+		Mockito.when(utils.getLong()).thenReturn(customerId, itemId);
+		Mockito.when(utils.getString()).thenReturn(customerFirstName, customerSurName, itemName);
+		Mockito.when(utils.getDouble()).thenReturn(price);
+		
 		Mockito.when(this.utils.getLong()).thenReturn(1L);
-		Mockito.when(this.utils.getString()).thenReturn(updated.getItemName());
-		Mockito.when(this.utils.getDouble()).thenReturn(updated.getPrice());
+		
+		Mockito.when(this.utils.getDouble()).thenReturn(updated.getTotalPrice());
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.controller.update());
@@ -93,15 +116,15 @@ public class OrdersControllerTest {
 
 	@Test
 	public void testDelete() {
-		final long itemId = 1L;
+		final long ordersId = 1L;
 
-		Mockito.when(utils.getLong()).thenReturn(itemId);
-		Mockito.when(dao.delete(itemId)).thenReturn(1);
+		Mockito.when(utils.getLong()).thenReturn(ordersId);
+		Mockito.when(dao.delete(ordersId)).thenReturn(1);
 
 		assertEquals(1L, this.controller.delete());
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
-		Mockito.verify(dao, Mockito.times(1)).delete(itemId);
+		Mockito.verify(dao, Mockito.times(1)).delete(ordersId);
 	}
 
 	
