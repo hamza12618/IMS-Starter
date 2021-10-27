@@ -127,6 +127,25 @@ public class OrdersController implements CrudController<Orders> {
 		// Add an item to a order
 		
 		public Orders AddItemToOrder() {
+			
+			LOGGER.info("Please enter the orderId for the order that you would like to add the items from");
+			Long ordersId = utils.getLong();
+			
+			
+			LOGGER.info("Please enter a customer");
+			Long customerId = utils.getLong();
+			String customerFirstName = utils.getString();
+			String customerSurName = utils.getString();
+			Customer customer = new Customer(customerId, customerFirstName, customerSurName);
+			
+			
+			LOGGER.info("Please enter a total price");
+			Double totalPrice = utils.getDouble();
+			
+			LOGGER.info("Please enter a quantity");
+			Integer quantity = utils.getInteger();
+			
+			
 		LOGGER.info("Please enter the item id that you would like to add to the order");
 		Long itemId = utils.getLong();
 		String itemName = utils.getString();
@@ -134,12 +153,8 @@ public class OrdersController implements CrudController<Orders> {
 		Item item = new Item(itemId, itemName, price);
 		
 		
-		Orders Orders = ordersDAO.update(new Orders(orderId, customer, totalPrice, quantity, item));
+		Orders Orders = ordersDAO.update(new Orders(ordersId, customer, totalPrice, quantity, item));
 		LOGGER.info("Order Updated");
-		
-		LOGGER.info("Please enter the orderId for the order that you would like to add items to");
-		Long ordersId = utils.getLong();
-		
 		
 		return Orders;
 		}
@@ -149,15 +164,10 @@ public class OrdersController implements CrudController<Orders> {
 		
 		
 		public Orders deleteItemFromOrders() {
-			LOGGER.info("Please enter the itemId of the item you would like to delete");
-			Long itemId = utils.getLong();
+			
 			LOGGER.info("Please enter the orderId for the order that you would like to delete the items from");
 			Long ordersId = utils.getLong();
 			
-			
-		
-			LOGGER.info("Please enter a order Id");
-			Long orderId = utils.getLong();
 			
 			LOGGER.info("Please enter a customer");
 			Long customerId = utils.getLong();
@@ -180,13 +190,36 @@ public class OrdersController implements CrudController<Orders> {
 			Item item = new Item(itemId, itemName, price);
 			
 			
-			Orders orders = ordersDAO.deleteItemFromOrders(new Orders(orderId, customer, totalPrice, quantity, item));
+			Orders orders = ordersDAO.deleteItemFromOrders(new Orders(ordersId, customer, totalPrice, quantity, item));
 			LOGGER.info("Item deleted from Order");
 			return orders;
 			
 			
 		}
 
+		//•	Calculate a cost for an order
+		//public double Calculator {
+
+		
+		
+		double price = 0;
+		int quantity = 0;
+		
+		double totalPrice = price * quantity;
+	   
+		
+		public static double multiply(double price, int quantity) {
+			return  price * quantity;
+	  
+		
+		
+		
+		}
+		
+		
+		
+		
+		
 		}
 		 
 		
@@ -195,4 +228,4 @@ public class OrdersController implements CrudController<Orders> {
 		
 		
 		
-}
+

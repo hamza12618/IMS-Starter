@@ -70,7 +70,7 @@ public class OrdersDAO implements Dao<Orders> {
 	@Override
 	public Orders read(Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE orderId = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE orders_id = ?");) {
 			statement.setLong(1, orderId);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
@@ -87,7 +87,7 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders(quantity, totalPrice, customerId) VALUES (?, ?, ?)");) {
+						.prepareStatement("INSERT INTO orders(quantity, total_price, fk_customers_id) VALUES (?, ?, ?)");) {
 			statement.setInt(1, orders.getQuantity());
 			statement.setDouble(2, orders.getTotalPrice());
 			statement.setLong(3, orders.getCustomer().getId());
@@ -105,7 +105,7 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE orders SET quantity = ?, totalPrice = ? WHERE ordersId = ?");) {
+						.prepareStatement("UPDATE orders SET quantity = ?, total_price = ? WHERE orders_id = ?");) {
 			statement.setInt(1, orders.getQuantity());
 			statement.setDouble(2, orders.getTotalPrice());
 			statement.setLong(3, orders.getOrderId());
@@ -121,7 +121,7 @@ public class OrdersDAO implements Dao<Orders> {
 	@Override
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE orderId = ?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE orders_id = ?");) {
 			statement.setLong(1, id);
 			return statement.executeUpdate();
 		} catch (Exception e) {
@@ -139,10 +139,9 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders AddItemToOrder(Orders order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO order_items SET quantity = ?, totalPrice = ? WHERE item_id = ?");) {
-			statement.setInt(1, order.getQuantity());
-			statement.setDouble(2, order.getTotalPrice());
-			statement.setLong(3, order.getItem().getItemId()); 
+						.prepareStatement("INSERT INTO order_items(fk_item_id, fk_orders_id) VALUES (?,?)");) {
+			statement.setLong(1, order.getItem().getItemId());
+			statement.setLong(2, order.getOrderId());
 			statement.executeUpdate();
 			return read(order.getOrderId());
 		} catch (Exception e) {
@@ -156,7 +155,7 @@ public class OrdersDAO implements Dao<Orders> {
 	
 	public Orders deleteItemFromOrders(Orders order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE item_id = ? and orders_id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_item_id = ? and fk_orders_id = ?");) {
 			statement.setLong(1, order.getItem().getItemId());
 			statement.setLong(2, order.getOrderId());
 			 statement.executeUpdate();

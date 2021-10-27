@@ -51,7 +51,7 @@ public List<Item> readAll() {
 public Item readLatest() {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY itemsId DESC LIMIT 1");) {
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY item_id DESC LIMIT 1");) {
 		resultSet.next();
 		return modelFromResultSet(resultSet);
 	} catch (Exception e) {
@@ -69,7 +69,7 @@ public Item readLatest() {
 public Item read(Long id) {
 	
 	try (Connection connection = DBUtils.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE itemId = ?");) {
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE item_id = ?");) {
 		statement.setLong(1, id);
 		try (ResultSet resultSet = statement.executeQuery();) {
 			resultSet.next();
@@ -87,7 +87,7 @@ public Item read(Long id) {
 public Item create(Item item) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO items(itemID, item_Name, price) VALUES (?, ?)");) {
+					.prepareStatement("INSERT INTO items(item_iD, item_name, price) VALUES (?, ?, ?)");) {
 		statement.setLong(1, item.getItemId());
 		statement.setString(2, item.getItemName());
 		statement.setDouble(3, item.getPrice());
@@ -110,7 +110,7 @@ public Item create(Item item) {
 public Item update(Item items) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("UPDATE items SET itemId = ?, item_Name = ? WHERE price = ?");) {
+					.prepareStatement("UPDATE items SET price = ?, item_name = ? WHERE item_id = ?");) {
 		statement.setLong(1, items.getItemId());
 		
 		statement.setString(2, items.getItemName());
@@ -127,7 +127,7 @@ public Item update(Item items) {
 @Override
 public int delete(long id) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE itemId = ?");) {
+			PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE item_id = ?");) {
 		statement.setLong(1, id);
 		return statement.executeUpdate();
 	} catch (Exception e) {
