@@ -31,17 +31,17 @@ public class OrdersDAO implements Dao<Orders> {
 
 	@Override
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("orderId");
-		Double totalPrice = resultSet.getDouble("totalPrice");
+		Long orderId = resultSet.getLong("orders_id");
+		Double totalPrice = resultSet.getDouble("total_price");
 		int quantity = resultSet.getInt("quantity");
 		
 		
-		Long itemId = resultSet.getLong("itemId");
-		String itemName = resultSet.getString("itemName");
+		Long itemId = resultSet.getLong("id");
+		String itemName = resultSet.getString("item_name");
 		Double price = resultSet.getDouble("price");
 		Item item = new Item(itemId, itemName, price);
 		
-		Long customerId = resultSet.getLong("id");
+		Long customerId = resultSet.getLong("customers_id");
 		String customerFirstName = resultSet.getString("first_name");
 		String customerSurName = resultSet.getString("surname");
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);

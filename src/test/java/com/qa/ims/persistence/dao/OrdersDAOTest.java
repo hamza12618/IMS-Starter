@@ -60,22 +60,6 @@ public class OrdersDAOTest {
 	}
 
 	@Test
-	public void testReadLatest() {
-		
-		final Long customerId = 1L;
-		final String customerFirstName = "jordan";
-		final String customerSurName = "harrison";
-		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
-		
-		final Long itemId = 1L;
-		final String itemName = "Coke";
-		final Double price = 2.00;
-		final Item item = new Item(itemId, itemName, price);
-		
-		assertEquals(new Orders(1L, customer, 1.00, 1, item), DAO.readLatest());
-	}
-
-	@Test
 	public void testRead() {
 		final Long customerId = 1L;
 		final String customerFirstName = "jordan";
