@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `items` (
     `orders_id` INT(30) NOT NULL AUTO_INCREMENT,
     `quantity` INT(11),
     `total_price` DOUBLE,
-    `fk_customers_id` INT(30) NOT NULL,
+    `fk_customers_id` INT(11) NOT NULL,
     PRIMARY KEY(`orders_id`),
     FOREIGN KEY(`fk_customers_id`) REFERENCES customers(`customers_id`)
     );

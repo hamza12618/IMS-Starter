@@ -86,27 +86,24 @@ public class OrdersController implements CrudController<Orders> {
 			
 			LOGGER.info("Please enter a customer");
 			Long customerId = utils.getLong();
-			String customerFirstName = utils.getString();
-			String customerSurName = utils.getString();
-			Customer customer = new Customer(customerId, customerFirstName, customerSurName);
+			
+			Customer customer = new Customer(customerId, null, null);
 
 			
 			
-			LOGGER.info("Please enter a total price");
-			Double totalPrice = utils.getDouble();
+			
 			
 			LOGGER.info("Please enter a quantity");
 			Integer quantity = utils.getInteger();
 			
 			LOGGER.info("Please enter a item ");
 			Long itemId = utils.getLong();
-			String itemName = utils.getString();
-			Double price = utils.getDouble();
-			Item item = new Item(itemId, itemName, price);
+			
+			Item item = new Item(itemId, null, null);
 			
 		
 			
-			Orders Orders = ordersDAO.update(new Orders(orderId, customer, totalPrice, quantity, item));
+			Orders Orders = ordersDAO.update(new Orders(orderId, customer, null, quantity, item));
 			LOGGER.info("Order Updated");
 			return Orders;
 		}
@@ -154,7 +151,7 @@ public class OrdersController implements CrudController<Orders> {
 		
 		
 		Orders Orders = ordersDAO.update(new Orders(ordersId, customer, totalPrice, quantity, item));
-		LOGGER.info("Order Updated");
+		LOGGER.info("Item Added ");
 		
 		return Orders;
 		}
