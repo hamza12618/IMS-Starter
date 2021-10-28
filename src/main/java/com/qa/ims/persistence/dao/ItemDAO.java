@@ -20,8 +20,8 @@ public class ItemDAO implements Dao<Item> {
 	
 	@Override
 	public Item modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long itemId = resultSet.getLong("id");
-		String itemName = resultSet.getString("item_Name");
+		Long itemId = resultSet.getLong("item_id");
+		String itemName = resultSet.getString("item_name");
 		Double price = resultSet.getDouble("price");
 		return new Item(itemId, itemName, price);
 	}
@@ -87,7 +87,7 @@ public Item read(Long id) {
 public Item create(Item item) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO items(item_iD, item_name, price) VALUES (?, ?, ?)");) {
+					.prepareStatement("INSERT INTO items(item_id, item_name, price) VALUES (?, ?, ?)");) {
 		statement.setLong(1, item.getItemId());
 		statement.setString(2, item.getItemName());
 		statement.setDouble(3, item.getPrice());
@@ -111,10 +111,11 @@ public Item update(Item items) {
 	try (Connection connection = DBUtils.getInstance().getConnection();
 			PreparedStatement statement = connection
 					.prepareStatement("UPDATE items SET price = ?, item_name = ? WHERE item_id = ?");) {
-		statement.setLong(1, items.getItemId());
+		statement.setDouble(1, items.getPrice());
+		
 		
 		statement.setString(2, items.getItemName());
-		statement.setDouble(3, items.getPrice());
+		statement.setLong(3, items.getItemId());
 		statement.executeUpdate();
 		return read(items.getItemId());
 	} catch (Exception e) {

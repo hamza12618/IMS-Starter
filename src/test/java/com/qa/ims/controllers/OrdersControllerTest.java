@@ -38,7 +38,7 @@ public class OrdersControllerTest {
 		final String customerSurName = "harrison";
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
 		
-		final Double totalPrice = 2.00;
+		final Double totalPrice = 1.00;
 		final Integer quantity = 1;
 		
 		final Long itemId = 1L;
@@ -56,7 +56,7 @@ public class OrdersControllerTest {
 
 		assertEquals(created, controller.create());
 
-		Mockito.verify(utils, Mockito.times(1)).getString();
+		Mockito.verify(utils, Mockito.times(3)).getString();
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
 
@@ -97,20 +97,20 @@ public class OrdersControllerTest {
 		Orders updated = new Orders(customer, 2.00, 1, item);
 
 		
-		Mockito.when(utils.getLong()).thenReturn(customerId, itemId);
+		Mockito.when(utils.getLong()).thenReturn(customerId, itemId, null);
 		Mockito.when(utils.getString()).thenReturn(customerFirstName, customerSurName, itemName);
-		Mockito.when(utils.getDouble()).thenReturn(price);
+		Mockito.when(utils.getDouble()).thenReturn(price, updated.getTotalPrice());
 		
-		Mockito.when(this.utils.getLong()).thenReturn(1L);
 		
-		Mockito.when(this.utils.getDouble()).thenReturn(updated.getTotalPrice());
+		
+		
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.controller.update());
 
-		Mockito.verify(this.utils, Mockito.times(1)).getLong();
-		Mockito.verify(this.utils, Mockito.times(1)).getString();
-		Mockito.verify(this.utils, Mockito.times(1)).getDouble();
+		Mockito.verify(this.utils, Mockito.times(3)).getLong();
+		Mockito.verify(this.utils, Mockito.times(3)).getString();
+		Mockito.verify(this.utils, Mockito.times(2)).getDouble();
 		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
 	}
 
