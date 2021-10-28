@@ -36,7 +36,7 @@ public class OrdersDAO implements Dao<Orders> {
 		int quantity = resultSet.getInt("quantity");
 		
 		
-		Long itemId = resultSet.getLong("id");
+		Long itemId = resultSet.getLong("item_id");
 		String itemName = resultSet.getString("item_name");
 		Double price = resultSet.getDouble("price");
 		Item item = new Item(itemId, itemName, price);
@@ -93,7 +93,7 @@ public class OrdersDAO implements Dao<Orders> {
 			statement.setLong(3, orders.getCustomer().getId());
 			statement.executeUpdate();
 		
-			return null;
+			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -101,6 +101,22 @@ public class OrdersDAO implements Dao<Orders> {
 		return null;
 	}
 
+	public Orders readLatest() {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY orders_id DESC LIMIT 1");) {
+			resultSet.next();
+			return modelFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	
+	
+	
 	@Override
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();

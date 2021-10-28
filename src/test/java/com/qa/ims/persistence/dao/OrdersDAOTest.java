@@ -40,6 +40,31 @@ public class OrdersDAOTest {
 		assertEquals(created, DAO.create(created));
 	}
 
+	@Test 
+	public void testreadLatest() {
+		
+		final Long customerId = 1L;
+		final String customerFirstName = "jordan";
+		final String customerSurName = "harrison";
+		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
+		
+		final Long itemId = 1L;
+		final String itemName = "Fanta";
+		final Double price = 10.00;
+		final Item item = new Item(itemId, itemName, price);
+		
+		
+		
+		assertEquals(new Orders(1L, customer, 1.00, 1, item), DAO.readLatest());
+		
+		
+		
+	}
+	
+	
+	
+	
+	
 	@Test
 	public void testReadAll() {
 		
@@ -49,8 +74,8 @@ public class OrdersDAOTest {
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
 		
 		final Long itemId = 1L;
-		final String itemName = "Coke";
-		final Double price = 2.00;
+		final String itemName = "Fanta";
+		final Double price = 10.00;
 		final Item item = new Item(itemId, itemName, price);
 		
 		
@@ -67,8 +92,8 @@ public class OrdersDAOTest {
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
 		
 		final Long itemId = 1L;
-		final String itemName = "Coke";
-		final Double price = 2.00;
+		final String itemName = "Fanta";
+		final Double price = 10.00;
 		final Item item = new Item(itemId, itemName, price);
 		
 		
