@@ -9,21 +9,21 @@ public class Item {
 	
 	
 	public Item(String itemName, Double price) {
-		super();
-		this.itemName = itemName;
-		this.price = price;
+		
+		this.setItemName(itemName);
+		this.setPrice(price);
 	}
 
 
 
 	public Item(Long itemId, String itemName, Double price) {
 		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-		this.price = price;
+		this.setItemId(itemId);
+		this.setItemName(itemName);
+		this.setPrice(price);
 	}
 
-	
+
 
 	public Long getItemId() {
 		return itemId;
@@ -49,7 +49,7 @@ public class Item {
 
 
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
@@ -59,11 +59,11 @@ public class Item {
 		this.price = price;
 	}
 
-	
+
 
 	@Override
 	public String toString() {
-		return "id:" + itemId + " item name:" + itemName + ", price=" + price;
+		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", price=" + price + "]";
 	}
 
 
@@ -107,7 +107,7 @@ public class Item {
 		return true;
 	}
 
-
+	
 
 	
 }

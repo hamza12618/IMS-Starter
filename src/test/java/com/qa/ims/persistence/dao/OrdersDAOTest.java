@@ -91,14 +91,11 @@ public class OrdersDAOTest {
 		final String customerSurName = "harrison";
 		Customer customer = new Customer(customerId, customerFirstName, customerSurName);
 		
-		final Long itemId = 1L;
-		final String itemName = "Fanta";
-		final Double price = 10.00;
-		final Item item = new Item(itemId, itemName, price);
+	
 		
 		
 		final long ID = 1L;
-		assertEquals(new Orders(ID, customer, 1.00, 1, item), DAO.read(ID));
+		assertEquals(new Orders(ID, customer, 1.00, 1, null), DAO.read(1L));
 	}
 
 	@Test
