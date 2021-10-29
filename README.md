@@ -1,4 +1,4 @@
-Coverage: 34%
+Coverage: 64.1%
 # IMS Project
 
 This is my IMS project where I have created a Inventory management system with the CRUD functions: Create, Read, Add, Update and Delete for the user in order for a user to use these functions when working with the Customers, Items, Orders and OrderItems tables. This project consisted me of creating these tables in SQL and using Java on eclipse for backend coding.  
