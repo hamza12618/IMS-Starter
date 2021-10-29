@@ -87,7 +87,7 @@ Coverage as JUNIT
 
 
 ## Deployment
-Run as a fatJAR file for deployment on a live system
+Run as a fatJAR file for deployment with maven on a live system
 
 
 ## Built With
